@@ -1,1 +1,7 @@
 eyJjdHkiOiJzdHJpbmdlZS1hcGk7dj0xIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJqdGkiOiJTSy4wLlgyT245MFZVV0ZhbEplU3ZjYThDWWhJYUlweUxvc1EtMTczNzc5MjI3MiIsImlzcyI6IlNLLjAuWDJPbjkwVlVXRmFsSmVTdmNhOENZaElhSXB5TG9zUSIsImV4cCI6MTc0MDM4NDI3MiwicmVzdF9hcGkiOnRydWV9.-EL8TQkHtt-MebnE1hmVa3oAh21iClmhuUlE1UCO4OE
+const STRINGEE_SERVER_ADDRS = [
+"wss://v1.stringee.com:6899/", 
+"wss://v2.stringee.com:6899/"
+];
+var stringeeClient = new StringeeClient(STRINGEE_SERVER_ADDRS);
+                
