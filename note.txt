@@ -1,3 +1,4 @@
+https://www.tikwm.com/api/user/posts?unique_id=@yuzuki_cosplay07&count=30
 7296526311:AAFProE6bBnY_kZU1LBF9WGp83BG4kyg4i8
 6602753350
 https://github.com/vominht/BotTelegramBuffViewTiktok.git
