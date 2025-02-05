@@ -1,0 +1,183 @@
+# Coder @thichlaptrinh 
+# Yêu Cầu Không Xóa Để Tôn Trọng Tác Giả 
+# >>> Group Me : t.me/sharetelebotfree
+from datetime import datetime, timedelta    
+
+import requests
+import random
+import time
+import re
+
+print("Made By MikaTeam")
+print(">>> Nếu Nhiều Tài Khoản Garena Mà FAILED Nhiều Quá Thì Bạn Hãy FAKE IP Do Garena Đã Chặn Bạn Rồi")
+def lay_mail_ao():
+    response = requests.get('https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=10')
+    if response.status_code == 200:
+        return response.json()[0]
+    print("Không thể tạo email, API không phản hồi.")
+    return None
+
+def random_ten():
+    return "MikaMika" + ''.join(random.choices('abcdefghijklmnopqrstuvwxyz0123456789', k=5))
+
+
+
+def lay_otp_tu_mail_ao(email):
+    name, domain = email.split('@')
+    url = f'https://www.1secmail.com/api/v1/?action=getMessages&login={name}&domain={domain}'
+    
+    
+    time.sleep(2)
+    
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            messages = response.json()
+            if not messages:
+                
+                return None
+            
+            message_id = messages[0].get('id')
+            if message_id:
+                read_url = f'https://www.1secmail.com/api/v1/?action=readMessage&login={name}&domain={domain}&id={message_id}'
+                read_response = requests.get(read_url)
+                if read_response.status_code == 200:
+                    message_data = read_response.json()
+                    subject = message_data.get('subject', '')
+                    body = message_data.get('htmlBody', '')  
+                    
+                    
+                    
+                    otp_match = re.search(r'\b\d{8}\b', body)  
+                    if otp_match:
+                        return otp_match.group(0)
+                    else:
+                        print(f"Không tìm thấy OTP trong body email. Subject: {subject}")
+                else:
+                    print(f"Lỗi khi đọc email từ API. Phản hồi từ API: {read_response.text}")
+            else:
+                print("Không tìm thấy ID email trong danh sách.")
+        else:
+            print(f"Lỗi khi lấy tin nhắn từ email {email}. Phản hồi từ API: {response.text}")
+    except requests.exceptions.RequestException as e:
+        print(f"Lỗi kết nối khi truy cập API: {e}")
+    
+    return None
+def garena_gui_ma(email, username):
+    cookies = {
+        '_ga': 'GA1.1.225813459.1733892468',
+        '_ga_1M7M9L6VPX': 'GS1.1.1733892467.1.1.1733892474.0.0.0',
+        'datadome': '7DVrAKQ3hf0kTcRC3rRzSoYyGtGMeMeAzgkhkiRcGQesfnOY8BNX4AvJZQUpLLkIqtEKl44tP8j6omEe6DqWZADxgoMLigZMoK5LiWCCAwdu47nUXVwsDT57SIUJlj56',
+    }
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        'Accept-Encoding': 'gzip, deflate, br, zstd',
+        'Accept-Language': 'vi-VN,vi;q=0.9',
+        'Connection': 'keep-alive',
+        'Content-Length': '93',
+        'sec-ch-ua-platform': '"Android"',
+        'Sec-Fetch-Site': 'same-origin',
+        'Sec-Fetch-Mode': 'cors',
+        'Sec-Fetch-Dest': 'empty',
+        'Origin': 'https://sso.garena.com',
+        'Referer': 'https://sso.garena.com/universal/register?redirect_uri=https://sso.garena.com/universal/login?app_id=10100%26redirect_uri=https%253A%252F%252Faccount.garena.com%252F%253Flocale_name%253DVN%26locale=vi-VN&locale=vi-VN',
+    }
+
+    data = {
+        'username': username,
+        'email': email,
+        'locale': 'vi-VN',
+        'format': 'json',
+        'id': int(time.time() * 1000),
+    }
+
+    try:
+        response = requests.post('https://sso.garena.com/api/send_register_code_email', cookies=cookies, headers=headers, data=data)
+        if response.status_code == 200:
+            response_json = response.json()
+            if response_json.get("result") == 0:
+                
+                return True
+            else:
+                
+                return False
+        else:
+            
+            return False
+    except requests.exceptions.RequestException as e:
+        print(f"Lỗi kết nối: {e}")
+        return False
+
+
+def register():
+    email = lay_mail_ao()
+    username = random_ten()
+    if not email:
+       pass
+       return
+       pass 
+   
+    if garena_gui_ma(email, username):
+        
+        time.sleep(5)
+        otp = lay_otp_tu_mail_ao(email)
+        if otp:
+            
+            
+            cookies = {
+                '_ga': 'GA1.1.225813459.1733892468',
+                '_ga_1M7M9L6VPX': 'GS1.1.1733892467.1.1.1733892474.0.0.0',
+                'datadome': '7DVrAKQ3hf0kTcRC3rRzSoYyGtGMeMeAzgkhkiRcGQesfnOY8BNX4AvJZQUpLLkIqtEKl44tP8j6omEe6DqWZADxgoMLigZMoK5LiWCCAwdu47nUXVwsDT57SIUJlj56',
+            }
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                'Accept-Encoding': 'gzip, deflate, br, zstd',
+                'Accept-Language': 'vi-VN,vi;q=0.9',
+                'Connection': 'keep-alive',
+                'Content-Length': '93',
+                'sec-ch-ua-platform': '"Android"',
+                'Sec-Fetch-Site': 'same-origin',
+                'Sec-Fetch-Mode': 'cors',
+                'Sec-Fetch-Dest': 'empty',
+                'Origin': 'https://sso.garena.com',
+                'Referer': 'https://sso.garena.com/universal/register?redirect_uri=https://sso.garena.com/universal/login?app_id=10100%26redirect_uri=https%253A%252F%252Faccount.garena.com%252F%253Flocale_name%253DVN%26locale=vi-VN&locale=vi-VN',
+            }
+            data = {
+                'username': username,
+                'email': email,
+                'email_otp': otp,
+                'password': '91ec8d91319b53f8b4c550e3c1f3c9cb16519e923a96c526da6f5dadbbc94598942f057f50136743cce321c0e40632016fc4557d3d44a1a9075ca5d12e07835ece7dbf814f37d8c72260fca5aa1a434c84f3b92424adbd79470b07454da090eee055f55aeeaef08b03e644b207f29f2af96118dcb34828a47f7c9ebc7e477d02',
+                'location': 'VN',
+                'mobile_no': '',  
+                'otp': '',        
+                'locale': 'vi-VN',
+                'redirect_uri': 'https://sso.garena.com/universal/login',
+                'format': 'json',
+                'id': int(time.time() * 1000),
+            }
+            
+            response = requests.post('https://sso.garena.com/api/register', cookies=cookies, headers=headers, data=data)
+            if response.status_code == 200:
+                print(f"{username} | {email} | Yuri8911@ | SUCCESS ")
+            else:
+                print(f"{username} | {email} | Yuri8911@ | FAILED ")
+        else:
+            print(f"{username} | {email} | Yuri8911@ | FAILED ")
+    else:
+        print(f"{username} | {email} | Yuri8911@ | FAILED ")
+        
+        
+        
+
+
+count = int(input("Nhập Số Lượng Acc Muốn Reg Garena: "))
+
+for i in range(count):
+    register()
+    if i == count - 1:
+        
